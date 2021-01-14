@@ -27,9 +27,9 @@
       <v-app-bar-title>Ad App</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-container class="py-0 fill-height justify-end hidden-sm-and-down">
-        <v-btn text>
-            <v-icon left dark medium>mdi-github</v-icon>
-            Link
+        <v-btn text v-for="link in links" :key="link.title" :to="link.url">
+            <v-icon left dark medium>{{ link.icon }}</v-icon>
+            {{ link.title }}
         </v-btn>
       </v-container>
     </v-app-bar>
