@@ -24,7 +24,7 @@
             flat
     >
       <v-app-bar-nav-icon @click="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
-      <v-app-bar-title>Ad App</v-app-bar-title>
+      <router-link to="/" tag="h3" style="cursor: pointer">Ad App</router-link>
       <v-spacer></v-spacer>
       <v-container class="py-0 fill-height justify-end hidden-sm-and-down">
         <v-btn text v-for="link in links" :key="link.title" :to="link.url">
