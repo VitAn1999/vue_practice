@@ -35,7 +35,7 @@
                                     id="confirmPassword"
                                     prepend-icon="mdi-lock"
                                     name="confirmPassword"
-                                    label="confirmPassword"
+                                    label="Confirm Password"
                                     type="password"
                                     :rules="confirmPasswordRules"
                                     v-model="confirmPassword"
