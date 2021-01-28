@@ -10,7 +10,7 @@
                 >
                     <v-list-item v-for="order in orders" :key="order.id">
                             <v-list-item-action>
-                                <v-checkbox :input-value="order.done" @change="changeDone(order)"></v-checkbox>
+                                <v-checkbox :input-value="order.done" :disabled="order.done" @click="changeDone(order, $event)"></v-checkbox>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>{{ order.name }}</v-list-item-title>
@@ -42,9 +42,9 @@
             }
         },
         methods: {
-            changeDone (order) {
+            changeDone (order, event) {
                 order.done = true;
-                console.log('done')
+                event.target.disabled
             }
         }
     }
