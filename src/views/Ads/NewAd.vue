@@ -94,9 +94,10 @@
                     const ad = {
                         title: this.title,
                         description: this.description,
-                        promo: this.promo
+                        promo: this.promo,
+                        imgSrc: 'https://www.valuecoders.com/blog/wp-content/uploads/2017/07/vuejs.png'
                     }
-                    console.log(ad)
+                    this.$store.dispatch('createAd', ad)
                 }
 
             },

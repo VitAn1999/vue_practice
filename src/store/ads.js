@@ -47,6 +47,19 @@ export default {
                 })
             }
         }
+    },
+
+    actions: {
+        createAd(context, payload) {
+            payload.id = String(Math.round((Math.random()*100)))
+            context.commit('createAd', payload)
+        }
+    },
+
+    mutations: {
+        createAd(state, payload) {
+            return state.ads.push(payload)
+        }
     }
 
 }
