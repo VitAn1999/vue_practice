@@ -10,16 +10,16 @@
                     <v-img
                             class="white--text align-end"
                             height="300px"
-                            src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
+                            :src=adId.imgSrc
                     >
                     </v-img>
 
                     <v-card-subtitle class="pb-0">
-                        Lorem
+                        {{ adId.title }}
                     </v-card-subtitle>
 
                     <v-card-text class="text--primary">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, sint?
+                        {{ adId.description }}
                     </v-card-text>
 
                     <v-card-actions>
@@ -46,9 +46,11 @@
 
 <script>
     export default {
-        data () {
-            return {
-
+        props: ['id'],
+        computed: {
+            adId() {
+                const id = this.id
+                return this.$store.getters.adById(id)
             }
         }
     }
