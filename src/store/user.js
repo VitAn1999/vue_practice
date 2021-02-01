@@ -1,6 +1,29 @@
+import firebase from 'firebase'
+
+class User {
+    constructor (id) {
+        this.id = id
+    }
+}
+
 export default {
     state: {
         user: null
+    },
+
+    mutations: {
+      setUser(state, payload) {
+          state.user = payload
+      }
+    },
+
+    actions: {
+      registerUser(context, payload) {
+          firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+              .then((user) => {
+                  context.commit('setUser', new User(user.uid))
+              })
+      }
     },
 
     getters: {
