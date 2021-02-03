@@ -2,37 +2,40 @@
     <v-container>
         <v-layout row>
             <v-flex xs12 sm8 offset-sm4 md6 offset-md3 mt-7>
-                <h2 class="text--secondary" mb-5>Create new ad</h2>
+                <h2 class="text--secondary" mb-5>Edit ad</h2>
                 <v-form
-                    ref="form"
-                    v-model="valid"
-                    lazy-validation
+                        ref="form"
+                        lazy-validation
                 >
                     <v-text-field
-                        prepend-icon="mdi-book-plus"
-                        name="title"
-                        label="Ad title"
-                        type="text"
-                        :rules="titleRules"
-                        v-model="title"
-                        mb-10
-                    ></v-text-field>
+                            prepend-icon="mdi-book-plus"
+                            name="title"
+                            label="Ad title"
+                            type="text"
+                            :rules="titleRules"
+                            mb-10
+                            v-model="title"
+                    >
+
+                    </v-text-field>
                     <v-textarea
-                        prepend-icon="mdi-grease-pencil"
-                        rows="2"
-                        name="description"
-                        label="Description"
-                        :rules="descriptionRules"
-                        v-model="description"
-                    ></v-textarea>
+                            prepend-icon="mdi-grease-pencil"
+                            rows="2"
+                            name="description"
+                            label="Description"
+                            :rules="descriptionRules"
+                            v-model="description"
+                    >
+                        {{ adId.description }}
+                    </v-textarea>
                 </v-form>
                 <v-layout row mt-7>
                     <v-flex xs12>
                         <v-btn
-                            color="blue-grey"
-                            class="ma-2 white--text"
+                                color="blue-grey"
+                                class="ma-2 white--text"
                         >
-                        Upload File
+                            Reload File
                             <v-icon
                                     right
                                     dark
@@ -44,7 +47,7 @@
                 </v-layout>
                 <v-layout row mt-7>
                     <v-flex xs12>
-                        <img src="" height="">
+                        <img :src="adId.imgSrc" height="200px">
                     </v-flex>
                 </v-layout>
                 <v-layout row mt-7>
@@ -60,9 +63,9 @@
                         <v-btn
                                 :disabled="requiredForm"
                                 class="ma-2 white--text success"
-                                @click="createAd"
+                                @click="editAd"
                         >
-                            Create Ad
+                            Edit Ad
                         </v-btn>
                     </v-flex>
                 </v-layout>
@@ -75,29 +78,32 @@
     export default {
         data() {
             return {
-                title: '',
-                description: '',
-                promo: false,
-                valid: false,
+                title: this.$store.getters.adById(this.id).title,
+                description: this.$store.getters.adById(this.id).description,
+                promo: this.$store.getters.adById(this.id).promo,
                 titleRules: [
                     value => !!value || 'Title is required'
                 ],
                 descriptionRules: [
                     value => !!value || 'Description is required'
                 ]
-
             }
         },
+        props: ['id'],
         methods: {
-            createAd() {
+            editAd() {
                 if (this.$refs.form.validate()) {
                     const ad = {
+                        id: this.id,
                         title: this.title,
                         description: this.description,
                         promo: this.promo,
-                        imgSrc: 'https://www.valuecoders.com/blog/wp-content/uploads/2017/07/vuejs.png'
+                        imgSrc: this.$store.getters.adById(this.id).imgSrc
                     }
-                    this.$store.dispatch('createAd', ad)
+                    this.$store.dispatch('editAd', {
+                        newAd: ad,
+                        oldAd: this.$store.getters.myAds.findIndex(item => item.id === this.id)
+                    })
                         .then(() => {
                             this.$router.push('/')
                         })
@@ -105,10 +111,16 @@
                             console.log(error)
                         })
                 }
-
             },
         },
         computed: {
+            adId() {
+                const id = this.id
+                return this.$store.getters.adById(id)
+            },
+            myAds() {
+                return this.$store.getters.myAds
+            },
             requiredForm() {
                 if (this.title === '' || this.description === '') {
                     return !this.value
@@ -119,3 +131,7 @@
         },
     }
 </script>
+
+<style scoped>
+
+</style>

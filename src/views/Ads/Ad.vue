@@ -27,6 +27,7 @@
                         <v-btn
                                 color="orange"
                                 depressed
+                                :to="'/edit-ad/' + adId.id"
                         >
                             Edit
                         </v-btn>
@@ -51,7 +52,7 @@
             adId() {
                 const id = this.id
                 return this.$store.getters.adById(id)
-            }
+            },
         }
     }
 </script>

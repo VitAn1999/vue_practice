@@ -53,12 +53,18 @@ export default {
         createAd(context, payload) {
             payload.id = String(Math.round((Math.random()*100)))
             context.commit('createAd', payload)
+        },
+        editAd(context, payload) {
+            context.commit('editAd', payload)
         }
     },
 
     mutations: {
         createAd(state, payload) {
             return state.ads.push(payload)
+        },
+        editAd(state, payload) {
+            return state.ads.splice(payload.oldAd, 1, payload.newAd)
         }
     }
 

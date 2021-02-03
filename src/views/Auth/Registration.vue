@@ -47,7 +47,8 @@
                         <v-spacer></v-spacer>
                         <v-btn
                                 color="primary"
-                                :disabled="!valid"
+                                :loading="loading"
+                                :disabled="!valid || loading"
                                 @click="onSubmit"
                         >
                             Login</v-btn>
@@ -83,6 +84,11 @@
                 ]
             }
         },
+        computed: {
+            loading () {
+                return this.$store.getters.loading
+            }
+        },
         methods: {
             onSubmit () {
                 if (this.$refs.form.validate()) {
@@ -92,6 +98,12 @@
                     }
                     console.log(user)
                     this.$store.dispatch('registerUser', user)
+                        .then(() => {
+                            this.$router.push('/')
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
                 }
             }
         }

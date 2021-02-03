@@ -7,6 +7,7 @@ import AdList from "../views/Ads/AdList";
 import Orders from "../views/Orders/Orders";
 import Login from "../views/Auth/Login";
 import Registration from "../views/Auth/Registration";
+import EditAd from "../views/Ads/EditAd"
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,12 @@ const routes = [
     path: '/new-ad',
     name: 'newAd',
     component: NewAd
+  },
+  {
+    path: '/edit-ad/:id',
+    props: true,
+    name: 'editAd',
+    component: EditAd
   },
   {
     path: '/user-ad',
