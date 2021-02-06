@@ -19,6 +19,9 @@ new Vue({
       messagingSenderId: "743943201589",
       appId: "1:743943201589:web:b6ced73dc3d71cf619627c",
       measurementId: "G-2YSLZ3JYPK"
+    }),
+    firebase.auth().onAuthStateChanged(user => {
+      return this.$store.dispatch('autoLoginUser', user)
     })
   },
   vuetify,

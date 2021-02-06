@@ -29,7 +29,6 @@
                                     type="password"
                                     :rules="passwordRules"
                                     v-model="password"
-                                    :counter="6"
                             ></v-text-field>
                         </v-form>
                     </v-card-text>
@@ -37,7 +36,8 @@
                         <v-spacer></v-spacer>
                         <v-btn
                                 color="primary"
-                                :disabled="!valid"
+                                :loading="loading"
+                                :disabled="!valid || loading"
                                 @click="onSubmit"
                         >
                             Login</v-btn>
@@ -64,7 +64,6 @@
                 ],
                 passwordRules: [
                     value => !!value || 'Required',
-                    value => (value && value.length >= 6) || 'Name must be more than 6 characters'
                 ]
             }
         },
@@ -75,8 +74,22 @@
                         email: this.email,
                         password: this.password
                     }
-                    console.log(user)
+                    this.$store.dispatch('loginUser', user)
+                        .then(() => {
+                            this.$router.push('/')
+                        })
+                        .catch (() => {})
                 }
+            }
+        },
+        computed: {
+            loading () {
+                return this.$store.getters.loading
+            }
+        },
+        created() {
+            if(this.$route.query['loginError']) {
+                this.$store.dispatch('setError', 'Please login for continue')
             }
         }
     }

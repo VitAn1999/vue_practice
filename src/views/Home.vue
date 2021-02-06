@@ -9,7 +9,7 @@
                                 :key="ad.id"
                                 :src="ad.imgSrc"
                         >
-                            <div class="ad-tran">
+                            <div class="ad-tran" v-if="isUserLogin">
                                 <v-btn :to="'/ad/' + ad.id" elevation="0" class="error" >{{ ad.title }}</v-btn>
                             </div>
                         </v-carousel-item>
@@ -45,12 +45,22 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn
+                                    v-if="isUserLogin"
                                     :to="'/ad/' + ad.id"
                                     elevation="1"
                             >
                                 open
                             </v-btn>
                             <v-btn
+                                    v-if="isUserLogin"
+                                    color="primary"
+                                    raised
+                            >
+                                buy
+                            </v-btn>
+                            <v-btn
+                                    v-else
+                                    :to="'/registration'"
                                     color="primary"
                                     raised
                             >
@@ -72,6 +82,9 @@
             },
             ads()  {
                 return this.$store.getters.ads
+            },
+            isUserLogin() {
+                return this.$store.getters.isUserLogin
             }
         }
     }
