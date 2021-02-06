@@ -61,7 +61,8 @@
                 <v-layout row mt-7>
                     <v-flex xs12 >
                         <v-btn
-                                :disabled="requiredForm"
+                                :loading="loading"
+                                :disabled="requiredForm || loading"
                                 class="ma-2 white--text success"
                                 @click="editAd"
                         >
@@ -98,7 +99,8 @@
                         title: this.title,
                         description: this.description,
                         promo: this.promo,
-                        imgSrc: this.$store.getters.adById(this.id).imgSrc
+                        imgSrc: this.$store.getters.adById(this.id).imgSrc,
+                        userId: this.$store.getters.adById(this.id).userId
                     }
                     this.$store.dispatch('editAd', {
                         newAd: ad,
@@ -127,6 +129,9 @@
                 } else {
                     return this.value
                 }
+            },
+            loading() {
+                return this.$store.getters.loading
             }
         },
     }

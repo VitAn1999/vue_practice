@@ -19,32 +19,34 @@ export default {
 
     actions: {
         async registerUser(context, payload) {
-        context.commit('clearError')
-        context.commit('setLoading', true)
-        try {
-            const user = await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-            context.commit('setUser', new User(user.uid))
-            context.commit('setLoading', false)
-        } catch (error) {
-            context.commit('setLoading', false)
-            context.commit('setError', error.message)
-            throw error
-        }
+            context.commit('clearError')
+            context.commit('setLoading', true)
+            try {
+                const user = await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+                const newUser = new User(user.user.uid)
+                context.commit('setUser', newUser)
+                context.commit('setLoading', false)
+            } catch (error) {
+                context.commit('setLoading', false)
+                context.commit('setError', error.message)
+                throw error
+            }
         },
         
         async loginUser(context, payload) {
-        context.commit('clearError')
-        context.commit('setLoading', true)
-        try {
-            const user = await firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-            context.commit('setUser', new User(user.uid))
-            context.commit('setLoading', false)
-        } catch (error) {
-            context.commit('setLoading', false)
-            context.commit('setError', error.message)
-            throw error
-        }
-},
+            context.commit('clearError')
+            context.commit('setLoading', true)
+            try {
+                const user = await firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+                const loginUser = new User(user.user.uid)
+                context.commit('setUser', loginUser)
+                context.commit('setLoading', false)
+            } catch (error) {
+                context.commit('setLoading', false)
+                context.commit('setError', error.message)
+                throw error
+            }
+        },
 
         userLogout(context) {
             firebase.auth().signOut()
@@ -52,7 +54,7 @@ export default {
         },
 
         autoLoginUser(context, payload) {
-            context.commit('setUser', new User(payload.id))
+            context.commit('setUser', new User(payload.uid))
         }
 
     },

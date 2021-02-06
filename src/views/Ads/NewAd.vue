@@ -58,7 +58,8 @@
                 <v-layout row mt-7>
                     <v-flex xs12 >
                         <v-btn
-                                :disabled="requiredForm"
+                                :loading="loading"
+                                :disabled="requiredForm || loading"
                                 class="ma-2 white--text success"
                                 @click="createAd"
                         >
@@ -99,11 +100,9 @@
                     }
                     this.$store.dispatch('createAd', ad)
                         .then(() => {
-                            this.$router.push('/')
+                            this.$router.push('/user-ad')
                         })
-                        .catch(error => {
-                            console.log(error)
-                        })
+                        .catch(() => {})
                 }
 
             },
@@ -115,6 +114,9 @@
                 } else {
                     return this.value
                 }
+            },
+            loading() {
+                return this.$store.getters.loading
             }
         },
     }

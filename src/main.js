@@ -21,7 +21,9 @@ new Vue({
       measurementId: "G-2YSLZ3JYPK"
     }),
     firebase.auth().onAuthStateChanged(user => {
-      return this.$store.dispatch('autoLoginUser', user)
+      if(user) {
+        this.$store.dispatch('autoLoginUser', user)
+      }
     })
   },
   vuetify,
