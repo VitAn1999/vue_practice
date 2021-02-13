@@ -21,7 +21,7 @@
                         {{ adId.description }}
                     </v-card-text>
 
-                    <v-card-actions>
+                    <v-card-actions class="card">
                         <v-btn
                                 color="orange"
                                 depressed
@@ -52,3 +52,9 @@
         }
     }
 </script>
+
+<style>
+    .card {
+        padding-bottom: 20px;
+    }
+</style>

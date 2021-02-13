@@ -27,8 +27,7 @@ new Vue({
         this.$store.dispatch('autoLoginUser', user)
       }
     }),
-    this.$store.dispatch('fetchAds'),
-    this.$store.dispatch('fetchOrders')
+    this.$store.dispatch('fetchAds')
   },
   vuetify,
   render: h => h(App)

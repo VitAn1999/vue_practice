@@ -40,7 +40,11 @@
     export default {
         methods: {
             changeDone (order, event) {
-                order.done = true;
+                this.$store.dispatch('changeDone', order.id)
+                    .then(() => {
+                        order.done = true;
+                    })
+                    .catch(() =>{})
                 event.target.disabled
             }
         },
@@ -51,6 +55,9 @@
             loading() {
                 return this.$store.getters.loading
             }
+        },
+        created() {
+            this.$store.dispatch('fetchOrders')
         }
     }
 </script>

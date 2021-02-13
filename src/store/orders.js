@@ -38,7 +38,7 @@ export default {
                 const newOrder = new Order(
                     payload.firstName, payload.lastName, payload.phone, payload.adId, payload.userId
                 )
-                const order = await fb.database().ref('orders').push(newOrder)
+                const order = await fb.database().ref(`user/${payload.userId}/orders`).push(newOrder)
 
                 context.commit('createOrder', {
                     ...newOrder,
@@ -55,7 +55,7 @@ export default {
             try {
                 const fbOrders = await fb
                     .database()
-                    .ref('orders')
+                    .ref(`user/${context.getters.user.id}/orders`)
                     .once('value');
                 const orders = fbOrders.val();
                 const resultOrders = [];
@@ -78,6 +78,18 @@ export default {
             } catch (e) {
                 context.commit('setError', e.message)
                 context.commit('setLoading', false)
+                throw e
+            }
+        },
+        async changeDone(context, payload) {
+            context.commit('clearError')
+            try {
+                await fb.database().ref(`user/${context.getters.user.id}/orders`).child(payload)
+                    .update({
+                        done: true
+                    })
+            } catch (e) {
+                context.commit('setError', e.message)
                 throw e
             }
         }
