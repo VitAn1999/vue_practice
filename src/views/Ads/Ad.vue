@@ -9,7 +9,6 @@
                 >
                     <v-img
                             class="white--text align-end"
-                            height="300px"
                             :src=adId.imgSrc
                     >
                     </v-img>
@@ -23,21 +22,15 @@
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-spacer></v-spacer>
                         <v-btn
                                 color="orange"
                                 depressed
                                 :to="'/edit-ad/' + adId.id"
+                                v-if="isUser"
                         >
                             Edit
                         </v-btn>
-
-                        <v-btn
-                                color="success"
-
-                        >
-                            Buy
-                        </v-btn>
+                        <buy-modal :ad="adId"></buy-modal>
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -53,6 +46,9 @@
                 const id = this.id
                 return this.$store.getters.adById(id)
             },
+            isUser() {
+                return this.adId.userId === this.$store.getters.user.id
+            }
         }
     }
 </script>

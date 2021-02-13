@@ -1,7 +1,8 @@
 import store from '../store'
 
-export default function(to, from, next) {
-    if (store.getters.user) {
+export default async function(to, from, next) {
+    const loginUser = await store.getters.user
+    if (loginUser) {
         next()
     } else {
         next('/login?loginError=true')

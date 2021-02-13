@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!loading">
         <v-container fluid>
             <v-layout row>
                 <v-flex xs12>
@@ -43,7 +43,8 @@
                         </v-card-subtitle>
 
                         <v-card-actions>
-                            <v-spacer></v-spacer>
+
+                            <v-spacer v-if="!isUserLogin"></v-spacer>
                             <v-btn
                                     v-if="isUserLogin"
                                     :to="'/ad/' + ad.id"
@@ -51,23 +52,30 @@
                             >
                                 open
                             </v-btn>
+                            <buy-modal v-if="isUserLogin" :ad="ad"></buy-modal>
                             <v-btn
-                                    v-if="isUserLogin"
-                                    color="primary"
-                                    raised
-                            >
-                                buy
-                            </v-btn>
-                            <v-btn
-                                    v-else
-                                    :to="'/registration'"
-                                    color="primary"
-                                    raised
+                                v-else
+                                :to="'/registration'"
+                                class="primary"
+                                dark
                             >
                                 buy
                             </v-btn>
                         </v-card-actions>
                     </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </div>
+    <div v-else >
+        <v-container>
+            <v-layout row>
+                <v-flex xs12 class="text-center" pt-10>
+                    <v-progress-circular
+                            :size="100"
+                            color="primary"
+                            indeterminate
+                    ></v-progress-circular>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -85,6 +93,9 @@
             },
             isUserLogin() {
                 return this.$store.getters.isUserLogin
+            },
+            loading() {
+                return this.$store.getters.loading
             }
         }
     }

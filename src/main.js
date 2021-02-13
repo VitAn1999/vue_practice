@@ -4,8 +4,10 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import firebase from "firebase";
+import BuyModal from "./components/Modals/BuyModal"
 
 Vue.config.productionTip = false;
+Vue.component('buy-modal', BuyModal)
 
 new Vue({
   router,
@@ -24,7 +26,9 @@ new Vue({
       if(user) {
         this.$store.dispatch('autoLoginUser', user)
       }
-    })
+    }),
+    this.$store.dispatch('fetchAds'),
+    this.$store.dispatch('fetchOrders')
   },
   vuetify,
   render: h => h(App)

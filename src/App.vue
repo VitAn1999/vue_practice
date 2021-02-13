@@ -40,10 +40,10 @@
             <v-icon left dark medium>{{ link.icon }}</v-icon>
             {{ link.title }}
         </v-btn>
-          <v-btn text v-if="isUserLogin" @click="userLogout">
-              <v-icon left dark medium>mdi-exit-to-app</v-icon>
-              Logout
-          </v-btn>
+        <v-btn text v-if="isUserLogin" @click="userLogout">
+            <v-icon left dark medium>mdi-exit-to-app</v-icon>
+            Logout
+        </v-btn>
       </v-container>
     </v-app-bar>
 
@@ -127,7 +127,9 @@
         },
         userLogout() {
             this.$store.dispatch('userLogout')
-            this.$router.push('/')
+            if(this.$route.path !== '/') {
+                this.$router.push('/')
+            }
         }
     }
   }

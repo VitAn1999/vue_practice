@@ -31,6 +31,7 @@
                         <v-btn
                             color="blue-grey"
                             class="ma-2 white--text"
+                            @click="uploadFile"
                         >
                         Upload File
                             <v-icon
@@ -40,11 +41,17 @@
                                 mdi-cloud-upload
                             </v-icon>
                         </v-btn>
+                        <input type="file"
+                               ref="downloadFile"
+                               style="display: none"
+                               accept="image/*"
+                               @change="onChangeInput"
+                        >
                     </v-flex>
                 </v-layout>
                 <v-layout row mt-7>
                     <v-flex xs12>
-                        <img src="" height="">
+                        <img :src="imgSrc" height="200" v-if="imgSrc">
                     </v-flex>
                 </v-layout>
                 <v-layout row mt-7>
@@ -59,7 +66,7 @@
                     <v-flex xs12 >
                         <v-btn
                                 :loading="loading"
-                                :disabled="requiredForm || loading"
+                                :disabled="requiredForm || loading || !image"
                                 class="ma-2 white--text success"
                                 @click="createAd"
                         >
@@ -80,6 +87,8 @@
                 description: '',
                 promo: false,
                 valid: false,
+                image: null,
+                imgSrc: '',
                 titleRules: [
                     value => !!value || 'Title is required'
                 ],
@@ -91,12 +100,12 @@
         },
         methods: {
             createAd() {
-                if (this.$refs.form.validate()) {
+                if (this.$refs.form.validate() && this.image) {
                     const ad = {
                         title: this.title,
                         description: this.description,
                         promo: this.promo,
-                        imgSrc: 'https://www.valuecoders.com/blog/wp-content/uploads/2017/07/vuejs.png'
+                        image: this.image
                     }
                     this.$store.dispatch('createAd', ad)
                         .then(() => {
@@ -104,8 +113,20 @@
                         })
                         .catch(() => {})
                 }
-
             },
+            uploadFile() {
+                this.$refs.downloadFile.click()
+            },
+            onChangeInput(event) {
+                const file = event.target.files[0]
+                const reader = new FileReader()
+                reader.onload = () => {
+                    this.imgSrc = reader.result
+                }
+                reader.readAsDataURL(file)
+                this.image = file
+
+            }
         },
         computed: {
             requiredForm() {
